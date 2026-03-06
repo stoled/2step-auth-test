@@ -3,12 +3,7 @@ import { Link } from "react-router-dom";
 import { CheckCircle2, Users } from "lucide-react";
 import { Step1 } from "../components/Step1";
 import { Step2 } from "../components/Step2";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 type Stage = "step1" | "step2" | "success";
@@ -51,6 +46,7 @@ export function RegisterPage() {
                   Ваш аккаунт успешно создан
                 </p>
               </div>
+
               <Button asChild className="w-full">
                 <Link to="/users" className="flex items-center gap-2">
                   <Users className="w-4 h-4" />

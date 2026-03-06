@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { step2Schema, type Step2Data } from "../types/schemas";
-import { usersApi } from "../api/users";
+import { useRegistration } from "../hooks/useRegistration";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
 
 interface Step2Props {
   email: string;
@@ -23,8 +22,8 @@ interface Step2Props {
 }
 
 export function Step2({ email, onBack, onSuccess }: Step2Props) {
-  const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const { register, serverError } = useRegistration();
 
   const form = useForm<Step2Data>({
     resolver: zodResolver(step2Schema),
@@ -32,21 +31,12 @@ export function Step2({ email, onBack, onSuccess }: Step2Props) {
   });
 
   const onSubmit = async (data: Step2Data) => {
-    setServerError(null);
-    try {
-      await usersApi.register({
-        email,
-        name: data.name,
-        password: data.password,
-      });
-      onSuccess();
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setServerError("Этот e-mail уже используется.");
-      } else {
-        setServerError("Ошибка регистрации. Попробуйте позже.");
-      }
-    }
+    const ok = await register({
+      email,
+      name: data.name,
+      password: data.password,
+    });
+    if (ok) onSuccess();
   };
 
   return (
@@ -110,13 +100,7 @@ export function Step2({ email, onBack, onSuccess }: Step2Props) {
               "Зарегистрироваться"
             )}
           </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onBack}
-            className="flex items-center gap-2"
-          >
+          <Button type="button" variant="outline" onClick={onBack}>
             Назад
           </Button>
         </div>

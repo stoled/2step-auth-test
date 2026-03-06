@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { step1Schema, type Step1Data } from "../types/schemas";
-import { usersApi } from "../api/users";
+import { useRegistration } from "../hooks/useRegistration";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +19,7 @@ interface Step1Props {
 }
 
 export function Step1({ onNext }: Step1Props) {
-  const [serverError, setServerError] = useState<string | null>(null);
+  const { checkEmail, serverError } = useRegistration();
 
   const form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
@@ -28,17 +27,8 @@ export function Step1({ onNext }: Step1Props) {
   });
 
   const onSubmit = async (data: Step1Data) => {
-    setServerError(null);
-    try {
-      const result = await usersApi.checkEmail(data.email);
-      if (!result.available) {
-        setServerError("Этот e-mail уже зарегистрирован");
-        return;
-      }
-      onNext(data.email);
-    } catch {
-      setServerError("Не удалось проверить e-mail. Попробуйте позже.");
-    }
+    const ok = await checkEmail(data.email);
+    if (ok) onNext(data.email);
   };
 
   return (
