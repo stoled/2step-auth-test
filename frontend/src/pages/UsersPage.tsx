@@ -1,41 +1,12 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Trash2, UserPlus, Loader2, Mail, Calendar } from "lucide-react";
-import { usersApi, type User } from "../api/users";
+import { type User } from "../api/users";
+import { useUsers } from "../hooks/useUsers";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import axios from "axios";
 
 export function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
-
-  useEffect(() => {
-    usersApi
-      .getAll()
-      .then(setUsers)
-      .catch(() => setError("Не удалось загрузить пользователей."))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleDelete = async (id: number) => {
-    if (!window.confirm("Удалить пользователя?")) return;
-    setDeletingId(id);
-    try {
-      await usersApi.delete(id);
-      setUsers((prev) => prev.filter((u) => u.id !== id));
-    } catch (err) {
-      const msg =
-        axios.isAxiosError(err) && err.response?.status === 404
-          ? "Пользователь не найден."
-          : "Не удалось удалить пользователя.";
-      setError(msg);
-    } finally {
-      setDeletingId(null);
-    }
-  };
+  const { users, loading, error, deletingId, deleteUser } = useUsers();
 
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("ru-RU", {
@@ -92,7 +63,7 @@ export function UsersPage() {
 
         {!loading && users.length > 0 && (
           <div className="space-y-3">
-            {users.map((user) => (
+            {users.map((user: User) => (
               <Card key={user.id}>
                 <CardContent className="py-4 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-4 min-w-0">
@@ -101,6 +72,7 @@ export function UsersPage() {
                         {user.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
+
                     <div className="min-w-0">
                       <p className="font-medium truncate">{user.name}</p>
                       <div className="flex items-center gap-1 mt-0.5">
@@ -121,7 +93,7 @@ export function UsersPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleDelete(user.id)}
+                    onClick={() => deleteUser(user.id)}
                     disabled={deletingId === user.id}
                     className="text-muted-foreground hover:text-destructive flex-shrink-0"
                   >
