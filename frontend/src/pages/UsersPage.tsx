@@ -5,15 +5,15 @@ import { useUsers } from "../hooks/useUsers";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
 export function UsersPage() {
   const { users, loading, error, deletingId, deleteUser } = useUsers();
-
-  const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
 
   return (
     <div className="min-h-screen bg-muted/40 p-4 md:p-8">
@@ -95,6 +95,7 @@ export function UsersPage() {
                     onClick={() => deleteUser(user.id)}
                     disabled={deletingId === user.id}
                     className="text-muted-foreground hover:text-destructive flex-shrink-0"
+                    aria-label={`Удалить пользователя ${user.name}`}
                   >
                     {deletingId === user.id ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

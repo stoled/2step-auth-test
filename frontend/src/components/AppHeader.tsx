@@ -12,8 +12,12 @@ export function AppHeader() {
       </Link>
 
       <div className="flex items-center gap-6 max-[360px]:hidden">
-        <img src={Bell} alt="notifications" />
-        <img src={Burger} alt="menu" />
+        <button type="button" aria-label="Уведомления" className="p-2 -m-2 rounded-full hover:bg-gray-100">
+          <img src={Bell} alt="" className="w-6 h-6" />
+        </button>
+        <button type="button" aria-label="Меню" className="p-2 -m-2 rounded-full hover:bg-gray-100">
+          <img src={Burger} alt="" className="w-6 h-6" />
+        </button>
       </div>
     </header>
   );
