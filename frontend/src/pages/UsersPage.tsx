@@ -18,16 +18,17 @@ export function UsersPage() {
   return (
     <div className="min-h-screen bg-muted/40 p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex gap-4
+         items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold">Пользователи</h1>
+            <h1 className="text-2xl font-bold max-[360px]:text-base">Пользователи</h1>
             {!loading && (
               <p className="text-sm text-muted-foreground">
                 Всего: {users.length}
               </p>
             )}
           </div>
-          <Button asChild>
+          <Button asChild >
             <Link to="/" className="flex items-center gap-2">
               Регистрация
             </Link>
