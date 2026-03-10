@@ -21,9 +21,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 interface Step1Props {
   onNext: (email: string) => void;
+  onEnter: () => void;
 }
 
-export function Step1({ onNext }: Step1Props) {
+export function Step1({ onNext, onEnter }: Step1Props) {
   const { checkEmail, serverError } = useRegistration();
   const [checked, setChecked] = useState(false);
 
@@ -86,7 +87,7 @@ export function Step1({ onNext }: Step1Props) {
           )}
         </Button>
 
-        <Button type="button" className="w-full" variant="secondary">
+        <Button type="button" className="w-full" variant="secondary" onClick={() => onEnter()}>
           ВОЙТИ
         </Button>
 

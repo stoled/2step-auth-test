@@ -32,7 +32,7 @@ export function RegisterPage() {
           </CardHeader>
 
           <CardContent>
-            {stage === "step1" && <Step1 onNext={handleStep1Next} />}
+            {stage === "step1" && <Step1 onNext={handleStep1Next} onEnter={handleRegister} />}
             {stage === "step2" && (
               <Step2
                 email={email}

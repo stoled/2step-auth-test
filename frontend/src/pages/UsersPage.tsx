@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Trash2, UserPlus, Loader2, Mail, Calendar } from "lucide-react";
+import { Trash2, Loader2, Mail, Calendar } from "lucide-react";
 import { type User } from "../api/users";
 import { useUsers } from "../hooks/useUsers";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,6 @@ export function UsersPage() {
           </div>
           <Button asChild>
             <Link to="/" className="flex items-center gap-2">
-              <UserPlus className="w-4 h-4" />
               Регистрация
             </Link>
           </Button>
@@ -55,7 +54,7 @@ export function UsersPage() {
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground mb-4">Пока никого нет</p>
               <Button asChild>
-                <Link to="/">Зарегистрироваться первым</Link>
+                <Link to="/">Зарегистрировать первого пользователя</Link>
               </Button>
             </CardContent>
           </Card>

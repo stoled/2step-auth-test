@@ -91,17 +91,16 @@ export function Step2({ email, onBack, onSuccess }: Step2Props) {
         <div className="flex flex-col gap-3">
           <Button
             type="submit"
-            className="flex-1"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              "Зарегистрироваться"
+              "ЗАРЕГИСТРИРОВАТЬ"
             )}
           </Button>
           <Button type="button" variant="outline" onClick={onBack}>
-            Назад
+            НАЗАД
           </Button>
         </div>
       </form>
