@@ -60,8 +60,12 @@ export function Step1({ onNext }: Step1Props) {
           {form.formState.isSubmitting ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <span>Продолжить</span>
+            <span>ПРОДОЛЖИТЬ</span>
           )}
+        </Button>
+
+        <Button className="w-full" variant="secondary">
+          ВОЙТИ
         </Button>
       </form>
     </Form>

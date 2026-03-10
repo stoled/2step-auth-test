@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { CheckCircle2, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 import { Step1 } from "../components/Step1";
 import { Step2 } from "../components/Step2";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/components/AppLayout";
 
-type Stage = "step1" | "step2" | "success";
+type Stage = "step1" | "step2";
 
 export function RegisterPage() {
+  const navigate = useNavigate();
+
   const [stage, setStage] = useState<Stage>("step1");
   const [email, setEmail] = useState("");
 
@@ -18,10 +19,14 @@ export function RegisterPage() {
     setStage("step2");
   };
 
+  const handleRegister = () => {
+    navigate("/users");
+  };
+
   return (
     <AppLayout>
-      <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
-        <Card>
+      <div>
+        <Card className="mt-[214px] mx-auto max-w-[508px]">
           <CardHeader>
             <CardTitle>Регистрация</CardTitle>
           </CardHeader>
@@ -32,30 +37,8 @@ export function RegisterPage() {
               <Step2
                 email={email}
                 onBack={() => setStage("step1")}
-                onSuccess={() => setStage("success")}
+                onSuccess={() => handleRegister()}
               />
-            )}
-            {stage === "success" && (
-              <div className="text-center py-4 space-y-4">
-                <div className="flex justify-center">
-                  <CheckCircle2 className="w-16 h-16 text-green-500" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold">
-                    Регистрация завершена!
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Ваш аккаунт успешно создан
-                  </p>
-                </div>
-
-                <Button asChild className="w-full">
-                  <Link to="/users" className="flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    Список пользователей
-                  </Link>
-                </Button>
-              </div>
             )}
           </CardContent>
         </Card>
