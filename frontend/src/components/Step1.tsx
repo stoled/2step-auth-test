@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+
 import { Loader2 } from "lucide-react";
 import { step1Schema, type Step1Data } from "../types/schemas";
 import { useRegistration } from "../hooks/useRegistration";
@@ -13,6 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Field, FieldGroup } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Step1Props {
   onNext: (email: string) => void;
@@ -20,6 +25,7 @@ interface Step1Props {
 
 export function Step1({ onNext }: Step1Props) {
   const { checkEmail, serverError } = useRegistration();
+  const [checked, setChecked] = useState(false);
 
   const form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
@@ -27,6 +33,7 @@ export function Step1({ onNext }: Step1Props) {
   });
 
   const onSubmit = async (data: Step1Data) => {
+    if (!checked) return;
     const ok = await checkEmail(data.email);
     if (ok) onNext(data.email);
   };
@@ -52,6 +59,21 @@ export function Step1({ onNext }: Step1Props) {
           <p className="text-sm text-destructive">{serverError}</p>
         )}
 
+        <FieldGroup className="max-w-sm">
+          <Field orientation="horizontal">
+            <Checkbox
+              id="terms-checkbox"
+              name="terms-checkbox"
+              checked={checked}
+              onCheckedChange={(value) => setChecked(value === true)}
+            />
+            <Label htmlFor="terms-checkbox">
+              Я подтверждаю согласие с{" "}
+              <a href="">политикой конфиденциальности</a>
+            </Label>
+          </Field>
+        </FieldGroup>
+
         <Button
           type="submit"
           className="w-full"
@@ -64,9 +86,14 @@ export function Step1({ onNext }: Step1Props) {
           )}
         </Button>
 
-        <Button className="w-full" variant="secondary">
+        <Button type="button" className="w-full" variant="secondary">
           ВОЙТИ
         </Button>
+
+        <div className="text-[12px] text-center">
+          <p>Возник вопрос или что-то сломалось?</p>
+          <a href="">Вступай в чат и задавай вопрос</a>
+        </div>
       </form>
     </Form>
   );

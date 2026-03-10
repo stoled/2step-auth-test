@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -114,12 +116,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@theme inline {
+  --font-sans: "Montserrat", sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground min-h-screen;
+  }
+  a {
+    @apply text-[#2662F3]
   }
   #root {
     @apply bg-[#E7EAFA] min-h-screen;
