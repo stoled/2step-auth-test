@@ -54,9 +54,6 @@ export function UsersPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground mb-4">Пока никого нет</p>
-              <Button asChild>
-                <Link to="/">Зарегистрировать первого пользователя</Link>
-              </Button>
             </CardContent>
           </Card>
         )}
