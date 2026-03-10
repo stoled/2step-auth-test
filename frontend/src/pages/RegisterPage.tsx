@@ -26,7 +26,7 @@ export function RegisterPage() {
   return (
     <AppLayout>
       <div>
-        <Card className="mt-[214px] mx-auto max-w-[508px]">
+        <Card className="mt-[214px] mx-auto max-w-[508px] max-[360px]:mt-[144px]">
           <CardHeader>
             <CardTitle>Регистрация</CardTitle>
           </CardHeader>
